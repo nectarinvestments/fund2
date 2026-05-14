@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en" style="color-scheme:light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nectar Fund II</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --page-bg: #F8F8F3;
+    --navy: #01041D;
+    --navy-mid: #06093A;
+    --navy-light: #0D1250;
+    --card: #FFFFFF;
+    --card2: #F0F0EA;
+    --accent: #971BFF;
+    --accent-dim: #7A12D9;
+    --accent2: #57C5C6;
+    --purple: #8462F3;
+    --green: #1A9E6E;
+    --red: #C0392B;
+    --amber: #D68910;
+    --text: #01041D;
+    --text-light: #FFFFFF;
+    --dim: #5A6A8A;
+    --border: rgba(1,4,29,0.10);
+    --border-accent: rgba(151,27,255,0.20);
+    --gradient-start: #5DE7DC;
+    --gradient-mid: #971BFF;
+    --gradient-end: #3302F7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    background: var(--page-bg);
+    color: var(--text);
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    min-height: 100vh;
+  }
+  body.lead-active { background: var(--navy); }
+  body.op-open { overflow: hidden; }
+  [hidden] { display: none !important; }
+
+  /* ───────────────── LEAD-CAPTURE FORM ───────────────── */
+  #lead-form {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background:
+      radial-gradient(ellipse at 25% 20%, rgba(151,27,255,0.18), transparent 55%),
+      radial-gradient(ellipse at 80% 90%, rgba(93,231,220,0.10), transparent 55%),
+      var(--navy);
+  }
+  .lead-card {
+    width: 100%;
+    max-width: 480px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(151,27,255,0.28);
+    border-radius: 16px;
+    padding: 40px 36px 32px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+  }
+  .lead-logo {
+    font-family: 'Manrope', sans-serif;
+    font-size: 22px;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    margin-bottom: 28px;
+    font-weight: 600;
+  }
+  .lead-card h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: var(--text-light);
+    line-height: 1.15;
+    margin-bottom: 10px;
+    font-weight: 400;
+  }
+  .lead-subhead {
+    font-size: 13px;
+    color: #C8D0E0;
+    line-height: 1.55;
+    margin-bottom: 28px;
+  }
+  .lead-field { margin-bottom: 14px; }
+  .lead-field label {
+    display: block;
+    font-size: 10px;
+    color: #8A9BB8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .lead-field input {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    color: var(--text-light);
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    transition: border-color 0.15s;
+  }
+  .lead-field input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgba(255,255,255,0.08);
+  }
+  .lead-cta {
+    width: 100%;
+    margin-top: 10px;
+    padding: 13px 18px;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .lead-cta:hover:not(:disabled) { background: var(--accent-dim); }
+  .lead-cta:disabled { opacity: 0.65; cursor: progress; }
+  .lead-error {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: rgba(192,57,43,0.12);
+    border: 1px solid rgba(192,57,43,0.4);
+    border-radius: 6px;
+    color: #FFB4AC;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .lead-foot {
+    margin-top: 24px;
+    font-size: 10px;
+    color: #6B7A98;
+    line-height: 1.6;
+  }
+
+  /* ───────────────── DASHBOARD ───────────────── */
+  header.dash-header {
+    background: var(--page-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .dash-header .logo {
+    font-family: 'Manrope', sans-serif;
+    font-size: 22px;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+    font-weight: 600;
+  }
+  .dash-header .logo span {
+    color: var(--dim);
+    font-size: 13px;
+    margin-left: 12px;
+    font-weight: 300;
+  }
+  .invest-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 22px;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 7px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: background 0.15s;
+    box-shadow: 0 4px 14px rgba(151,27,255,0.25);
+  }
+  .invest-btn:hover { background: var(--accent-dim); }
+
+  .main { padding: 28px 32px; max-width: 1400px; margin: 0 auto; }
+  .dash-title { margin-bottom: 24px; }
+  .dash-title h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--text);
+    margin-bottom: 6px;
+    font-weight: 400;
+  }
+  .dash-title p {
+    font-size: 12px;
+    color: var(--dim);
+    line-height: 1.6;
+    max-width: 720px;
+  }
+
+  /* KPI strip */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .kpi {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    transition: border-color 0.2s;
+  }
+  .kpi:hover { border-color: var(--border-accent); }
+  .kpi-label {
+    font-size: 10px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .kpi-value {
+    font-family: 'Manrope', sans-serif;
+    font-size: 22px;
+    color: var(--text);
+    line-height: 1;
+  }
+  .kpi-value.gold { color: var(--accent); }
+  .kpi-value.green { color: var(--green); }
+
+  /* Filters */
+  .filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-label {
+    font-size: 11px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-right: 4px;
+  }
+  select {
+    background: #FFFFFF;
+    border: 1px solid var(--border-accent);
+    color: var(--text);
+    padding: 7px 28px 7px 12px;
+    border-radius: 6px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235A6A8A'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    transition: border-color 0.2s;
+  }
+  select:hover { border-color: var(--accent-dim); }
+
+  /* Table */
+  .table-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .table-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .table-title {
+    font-size: 11px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .table-title::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 12px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+  .table-count {
+    font-family: 'Manrope', monospace;
+    font-size: 11px;
+    color: var(--dim);
+  }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 10px;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+  }
+  thead th:hover { color: var(--accent); }
+  thead th.sort-asc::after { content: ' ↑'; }
+  thead th.sort-desc::after { content: ' ↓'; }
+  tbody tr {
+    border-bottom: 1px solid rgba(1,4,29,0.06);
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(151,27,255,0.05); }
+  tbody td {
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  tbody td.mono { font-family: 'Manrope', monospace; font-size: 11px; }
+  tbody td.dim { color: var(--dim); }
+  tbody td.accent { color: var(--accent); font-family: 'Manrope', monospace; font-size: 11px; }
+  .type-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    background: rgba(132,98,243,0.12);
+    color: var(--purple);
+  }
+  .type-badge.pe { background: rgba(151,27,255,0.10); color: var(--accent); }
+  .type-badge.cfa { background: rgba(87,197,198,0.12); color: #2A8E8F; }
+
+  /* Modal (shadowbox) */
+  .op-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(1,4,29,0.55);
+    backdrop-filter: blur(2px);
+    z-index: 1000;
+    animation: opBackdropFade .18s ease;
+  }
+  @keyframes opBackdropFade { from { opacity: 0 } to { opacity: 1 } }
+  .op {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100vw - 48px);
+    max-width: 760px;
+    max-height: calc(100vh - 48px);
+    background: #ffffff;
+    border-radius: 14px;
+    overflow: hidden;
+    overflow-y: auto;
+    box-shadow: 0 24px 80px rgba(1,4,29,0.35), 0 0 0 1px rgba(151,27,255,0.18);
+    animation: opModalIn .2s ease;
+    font-family: 'Manrope', sans-serif;
+    color: #01041D;
+    z-index: 1001;
+  }
+  @keyframes opModalIn { from { opacity:0; transform: translate(-50%, -48%) scale(.98) } to { opacity:1; transform: translate(-50%, -50%) scale(1) } }
+  .op-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+  }
+  .op-top .op-logo {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .op-x {
+    cursor: pointer;
+    font-size: 18px;
+    color: #bbb;
+    background: none;
+    border: none;
+    line-height: 1;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .op-x:hover { color: #333; background: #f5f5f5; }
+  .op-hb { padding: 22px 24px 4px; }
+  .op-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: #01041D;
+    margin-bottom: 6px;
+    line-height: 1.2;
+    font-weight: 400;
+  }
+  .op-sub {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.55;
+  }
+  .op-mbar {
+    margin: 18px 24px 0;
+    background: #01041D;
+    padding: 16px 18px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    border-radius: 10px;
+  }
+  .op-ml {
+    font-size: 9px;
+    color: #8A9BB8;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: 4px;
+  }
+  .op-mv {
+    font-family: 'Manrope', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .op-mv.gold { color: var(--accent); }
+  .op-mv.white { color: #fff; }
+  .op-mv.grn { color: #1A9E6E; }
+  .op-body { padding: 18px 24px 24px; }
+  .op-sec { margin-bottom: 16px; }
+  .op-st {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .op-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #f4f4f4;
+    font-size: 12px;
+  }
+  .op-row:last-child { border: none; }
+  .op-row span:first-child { color: #777; }
+  .op-row span:last-child { font-weight: 600; color: #01041D; }
+  .op-docsend-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 12px 16px;
+    margin-top: 12px;
+    background: var(--accent);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: background 0.15s ease;
+  }
+  .op-docsend-btn:hover { background: var(--accent-dim); }
+  .op-docsend-btn.disabled {
+    background: #e8e8ec;
+    color: #aaa;
+    pointer-events: none;
+  }
+
+  /* Footer */
+  footer.dash-footer {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 32px 40px;
+    font-size: 10px;
+    color: var(--dim);
+    text-align: center;
+    line-height: 1.6;
+    border-top: 1px solid var(--border);
+    margin-top: 12px;
+  }
+
+  /* ───────────────── RESPONSIVE ───────────────── */
+  @media (max-width: 900px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .main { padding: 20px 18px; }
+    header.dash-header { padding: 14px 18px; }
+    .dash-header .logo { font-size: 18px; }
+    .dash-header .logo span { display: none; }
+    .invest-btn { padding: 9px 14px; font-size: 12px; }
+    footer.dash-footer { padding: 20px 18px 28px; }
+  }
+  @media (max-width: 560px) {
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .lead-card { padding: 30px 22px 24px; }
+    .lead-card h1 { font-size: 26px; }
+    .op {
+      width: 100vw;
+      max-width: 100vw;
+      height: 100vh;
+      max-height: 100vh;
+      top: 0;
+      left: 0;
+      transform: none;
+      border-radius: 0;
+    }
+    @keyframes opModalIn { from { opacity:0 } to { opacity:1 } }
+    .op-mbar { grid-template-columns: repeat(3, 1fr); margin: 14px 16px 0; padding: 12px; }
+    .op-hb { padding: 18px 16px 4px; }
+    .op-body { padding: 14px 16px 20px; }
+    .op-title { font-size: 18px; }
+    .op-mv { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ───────────── LEAD CAPTURE ───────────── -->
+<div id="lead-form">
+  <div class="lead-card">
+    <div class="lead-logo">nectar</div>
+    <h1>Nectar Fund II</h1>
+    <p class="lead-subhead">Get access to the Fund II portfolio overview. Verified investors only.</p>
+    <form id="lead-form-el" novalidate>
+      <div class="lead-field">
+        <label for="lead-name">Name</label>
+        <input type="text" id="lead-name" name="name" autocomplete="name" required>
+      </div>
+      <div class="lead-field">
+        <label for="lead-email">Email</label>
+        <input type="email" id="lead-email" name="email" autocomplete="email" required>
+      </div>
+      <button class="lead-cta" id="lead-submit" type="submit">View Fund II →</button>
+      <div class="lead-error" id="lead-error" hidden></div>
+    </form>
+    <p class="lead-foot">By submitting you confirm you are an accredited investor and agree to keep this information confidential.</p>
+  </div>
+</div>
+
+<!-- ───────────── DASHBOARD ───────────── -->
+<div id="fund2-dashboard" hidden>
+  <header class="dash-header">
+    <div class="logo">nectar <span>Fund II</span></div>
+    <a class="invest-btn" href="https://nectar.investnext.com/portal/offerings/7318/nectar-fund-2/" target="_blank" rel="noopener">Invest Now →</a>
+  </header>
+
+  <div class="main">
+    <div class="dash-title">
+      <h1>Fund II Portfolio Overview</h1>
+      <p>Snapshot of the Nectar Fund II portfolio. Metrics reflect the fund's slice of each underlying position.</p>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-label">Total Deployed</div>
+        <div class="kpi-value gold" id="kpiDeployed">—</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Total Collected</div>
+        <div class="kpi-value green" id="kpiCollected">—</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Outstanding Principal</div>
+        <div class="kpi-value" id="kpiOutstanding">—</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Avg DSCR</div>
+        <div class="kpi-value" id="kpiDSCR">—</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Avg CLTV</div>
+        <div class="kpi-value" id="kpiLTV">—</div>
+      </div>
+    </div>
+
+    <div class="filters">
+      <span class="filter-label">Filter:</span>
+      <select id="filterAsset"><option value="all">All Assets</option></select>
+      <select id="filterStatus"><option value="all">All Statuses</option></select>
+      <select id="filterType"><option value="all">All Structures</option></select>
+      <select id="filterVintage"><option value="all">All Vintages</option></select>
+    </div>
+
+    <div class="table-section">
+      <div class="table-header">
+        <div class="table-title">Positions</div>
+        <div class="table-count" id="tableCount">—</div>
+      </div>
+      <div class="table-wrap">
+        <table id="dealTable">
+          <thead>
+            <tr>
+              <th data-sort="id">ID</th>
+              <th data-sort="asset">Asset Type</th>
+              <th data-sort="type">Structure</th>
+              <th data-sort="vintage">Vintage</th>
+              <th data-sort="fund_outstanding">Fund Outstanding</th>
+              <th data-sort="fund_monthly_pmt">Fund Monthly Pmt</th>
+              <th data-sort="dscr">DSCR</th>
+              <th data-sort="ltv">LTV</th>
+              <th data-sort="irr">Proj. IRR</th>
+            </tr>
+          </thead>
+          <tbody id="dealBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <footer class="dash-footer">
+    © 2026 Nectar Investments. Confidential — For Qualified Investors. Past performance is not indicative of future results.
+  </footer>
+
+  <!-- Modal -->
+  <div id="opBackdrop" class="op-backdrop" hidden></div>
+  <div id="opPanel" class="op" hidden></div>
+</div>
+
+<script src="fund2-data.js"></script>
+<script>
+  const SUPABASE_URL = 'https://wxfqhrfagwyusxmwlcfz.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4ZnFocmZhZ3d5dXN4bXdsY2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNjI1MTgsImV4cCI6MjA5MTgzODUxOH0.XoMe-zpJIbVVzFN9ts8Sb0faEW1ZBwbXQgIuhPUNSx8';
+  const LEAD_FLAG = 'fund2_lead_submitted';
+  const DEALS = (window.FUND2_DEALS || []).slice();
+
+  // ── Formatters ──
+  function fmtMoney(v) {
+    if (v == null || isNaN(v)) return '—';
+    const a = Math.abs(v);
+    if (a >= 1e6) return '$' + (v / 1e6).toFixed(2) + 'M';
+    if (a >= 1e3) return '$' + (v / 1e3).toFixed(1) + 'K';
+    return '$' + Math.round(v).toLocaleString();
+  }
+  function fmtPct(v) {
+    if (v == null || isNaN(v) || v === 0) return '—';
+    return v.toFixed(1) + '%';
+  }
+  function fmtDscr(v) {
+    if (v == null || isNaN(v) || v === 0) return '—';
+    return v.toFixed(2) + 'x';
+  }
+  function structureClass(t) {
+    if (t === 'Preferred Equity') return 'pe';
+    if (t === 'Cash Flow Assignment') return 'cfa';
+    return '';
+  }
+  function shortStructure(t) {
+    if (!t) return '—';
+    return t.replace('Preferred ', 'Pref ').replace(' Assignment', '');
+  }
+
+  // ── Filters ──
+  function uniqueSorted(values, comparator) {
+    const set = new Set();
+    values.forEach(v => { if (v != null && v !== '') set.add(v); });
+    return [...set].sort(comparator || ((a, b) => String(a).localeCompare(String(b))));
+  }
+  function populateFilters() {
+    const assetSel = document.getElementById('filterAsset');
+    const statusSel = document.getElementById('filterStatus');
+    const typeSel = document.getElementById('filterType');
+    const vintageSel = document.getElementById('filterVintage');
+    uniqueSorted(DEALS.map(d => d.asset)).forEach(v => {
+      assetSel.insertAdjacentHTML('beforeend', `<option value="${v}">${v}</option>`);
+    });
+    uniqueSorted(DEALS.map(d => d.status)).forEach(v => {
+      statusSel.insertAdjacentHTML('beforeend', `<option value="${v}">${v}</option>`);
+    });
+    uniqueSorted(DEALS.map(d => d.type)).forEach(v => {
+      typeSel.insertAdjacentHTML('beforeend', `<option value="${v}">${v}</option>`);
+    });
+    uniqueSorted(DEALS.map(d => d.vintage), (a, b) => b - a).forEach(v => {
+      vintageSel.insertAdjacentHTML('beforeend', `<option value="${v}">${v}</option>`);
+    });
+    ['filterAsset','filterStatus','filterType','filterVintage'].forEach(id => {
+      document.getElementById(id).addEventListener('change', render);
+    });
+  }
+  function getFiltered() {
+    const a = document.getElementById('filterAsset').value;
+    const s = document.getElementById('filterStatus').value;
+    const t = document.getElementById('filterType').value;
+    const v = document.getElementById('filterVintage').value;
+    return DEALS.filter(d => {
+      if (a !== 'all' && d.asset !== a) return false;
+      if (s !== 'all' && d.status !== s) return false;
+      if (t !== 'all' && d.type !== t) return false;
+      if (v !== 'all' && String(d.vintage) !== String(v)) return false;
+      return true;
+    });
+  }
+
+  // ── KPI ──
+  function isClosed(d) {
+    return d.status && /paid|closed/i.test(d.status);
+  }
+  function renderKPIs(rows) {
+    const sum = key => rows.reduce((s, d) => s + (typeof d[key] === 'number' ? d[key] : 0), 0);
+    const deployed = sum('fund_advance');
+    const collected = sum('fund_collected');
+    const outstanding = rows.filter(d => !isClosed(d))
+      .reduce((s, d) => s + (typeof d.fund_outstanding === 'number' ? d.fund_outstanding : 0), 0);
+    const dscrVals = rows.map(d => d.dscr).filter(x => typeof x === 'number' && x > 0);
+    const ltvVals = rows.map(d => d.ltv).filter(x => typeof x === 'number' && x > 0);
+    const avg = a => a.length ? a.reduce((s, x) => s + x, 0) / a.length : null;
+    document.getElementById('kpiDeployed').textContent = fmtMoney(deployed);
+    document.getElementById('kpiCollected').textContent = fmtMoney(collected);
+    document.getElementById('kpiOutstanding').textContent = fmtMoney(outstanding);
+    document.getElementById('kpiDSCR').textContent = fmtDscr(avg(dscrVals));
+    document.getElementById('kpiLTV').textContent = fmtPct(avg(ltvVals));
+  }
+
+  // ── Table ──
+  let sortKey = 'fund_outstanding';
+  let sortDir = -1;
+  function compareRows(a, b) {
+    const va = a[sortKey], vb = b[sortKey];
+    if (va == null && vb == null) return 0;
+    if (va == null) return 1;
+    if (vb == null) return -1;
+    if (typeof va === 'string' || typeof vb === 'string') {
+      return String(va).localeCompare(String(vb)) * sortDir;
+    }
+    return (va - vb) * sortDir;
+  }
+  function renderTable(rows) {
+    const sorted = [...rows].sort(compareRows);
+    document.querySelectorAll('thead th').forEach(th => {
+      th.classList.remove('sort-asc', 'sort-desc');
+      if (th.dataset.sort === sortKey) {
+        th.classList.add(sortDir === 1 ? 'sort-asc' : 'sort-desc');
+      }
+    });
+    document.getElementById('tableCount').textContent =
+      `${sorted.length} position${sorted.length === 1 ? '' : 's'} — click any row`;
+    const tbody = document.getElementById('dealBody');
+    tbody.innerHTML = sorted.map(d => {
+      const cls = structureClass(d.type);
+      return `<tr data-id="${d.id}">
+        <td class="mono dim">${d.id}</td>
+        <td>${(d.asset || '—').replace(' & Hospitality', '')}</td>
+        <td><span class="type-badge ${cls}">${shortStructure(d.type)}</span></td>
+        <td class="mono">${d.vintage || '—'}</td>
+        <td class="mono">${fmtMoney(d.fund_outstanding)}</td>
+        <td class="mono">${fmtMoney(d.fund_monthly_pmt)}</td>
+        <td class="mono">${fmtDscr(d.dscr)}</td>
+        <td class="mono">${fmtPct(d.ltv)}</td>
+        <td class="accent">${fmtPct(d.irr)}</td>
+      </tr>`;
+    }).join('');
+    tbody.querySelectorAll('tr').forEach(tr => {
+      tr.addEventListener('click', () => openOP(tr.dataset.id));
+    });
+  }
+  function setupSorting() {
+    document.querySelectorAll('thead th').forEach(th => {
+      th.addEventListener('click', () => {
+        const k = th.dataset.sort;
+        if (!k) return;
+        if (k === sortKey) sortDir *= -1;
+        else { sortKey = k; sortDir = -1; }
+        render();
+      });
+    });
+  }
+
+  function render() {
+    const rows = getFiltered();
+    renderKPIs(rows);
+    renderTable(rows);
+  }
+
+  // ── Modal ──
+  function openOP(id) {
+    const d = DEALS.find(x => String(x.id) === String(id));
+    if (!d) return;
+    const panel = document.getElementById('opPanel');
+    const backdrop = document.getElementById('opBackdrop');
+    const city = d.city_state ? d.city_state.replace('/', ', ') : '';
+    const docsendBtn = d.one_pager
+      ? `<a class="op-docsend-btn" href="${d.one_pager}" target="_blank" rel="noopener">View One-Pager (DocSend) →</a>`
+      : `<a class="op-docsend-btn disabled">One-pager not available</a>`;
+    panel.innerHTML = `
+      <div class="op-top">
+        <div class="op-logo">nectar</div>
+        <button class="op-x" type="button" aria-label="Close">✕</button>
+      </div>
+      <div class="op-hb">
+        <div class="op-title">${d.name || ('Deal ' + d.id)}</div>
+        <div class="op-sub">${[city, d.asset, d.units ? `${d.units} units` : '', d.type].filter(Boolean).join(' · ')}</div>
+      </div>
+      <div class="op-mbar">
+        <div><div class="op-ml">DSCR</div><div class="op-mv gold">${fmtDscr(d.dscr)}</div></div>
+        <div><div class="op-ml">LTV</div><div class="op-mv white">${fmtPct(d.ltv)}</div></div>
+        <div><div class="op-ml">Proj. IRR</div><div class="op-mv grn">${fmtPct(d.irr)}</div></div>
+      </div>
+      <div class="op-body">
+        <div class="op-sec">
+          <div class="op-st">Position Detail</div>
+          <div class="op-row"><span>Position ID</span><span>${d.id}</span></div>
+          <div class="op-row"><span>Asset Type</span><span>${d.asset || '—'}</span></div>
+          <div class="op-row"><span>Financing Structure</span><span>${d.type || '—'}</span></div>
+          <div class="op-row"><span>Location</span><span>${city || '—'}</span></div>
+          <div class="op-row"><span>Units</span><span>${d.units != null ? d.units : '—'}</span></div>
+          <div class="op-row"><span>Vintage</span><span>${d.vintage || '—'}</span></div>
+          <div class="op-row"><span>Status</span><span>${d.status || '—'}</span></div>
+        </div>
+        <div class="op-sec">
+          <div class="op-st">Fund II Slice</div>
+          <div class="op-row"><span>Exposure</span><span>${fmtPct(d.exposure_pct)}</span></div>
+          <div class="op-row"><span>Fund Outstanding</span><span>${fmtMoney(d.fund_outstanding)}</span></div>
+          <div class="op-row"><span>Fund Monthly Pmt</span><span>${fmtMoney(d.fund_monthly_pmt)}</span></div>
+          <div class="op-row"><span>Term</span><span>${d.term_months ? d.term_months + ' months' : '—'}</span></div>
+          <div class="op-row"><span>Fund Date</span><span>${d.fund_date || '—'}</span></div>
+        </div>
+        ${docsendBtn}
+      </div>
+    `;
+    panel.hidden = false;
+    backdrop.hidden = false;
+    document.body.classList.add('op-open');
+    panel.scrollTop = 0;
+    panel.querySelector('.op-x').addEventListener('click', closeOP);
+  }
+  function closeOP() {
+    document.getElementById('opPanel').hidden = true;
+    document.getElementById('opBackdrop').hidden = true;
+    document.body.classList.remove('op-open');
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.body.classList.contains('op-open')) closeOP();
+  });
+  document.getElementById('opBackdrop').addEventListener('click', closeOP);
+
+  // ── Lead form ──
+  function showError(msg) {
+    const el = document.getElementById('lead-error');
+    el.textContent = msg;
+    el.hidden = false;
+  }
+  function clearError() {
+    document.getElementById('lead-error').hidden = true;
+  }
+  function showDashboard() {
+    document.body.classList.remove('lead-active');
+    document.getElementById('lead-form').hidden = true;
+    document.getElementById('fund2-dashboard').hidden = false;
+    if (!window.__fund2Initialized) {
+      window.__fund2Initialized = true;
+      populateFilters();
+      setupSorting();
+      render();
+    }
+  }
+  async function submitLead(name, email) {
+    const res = await fetch(SUPABASE_URL + '/rest/v1/fund2_leads', {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal',
+      },
+      body: JSON.stringify({ name, email, user_agent: navigator.userAgent }),
+    });
+    if (!res.ok && res.status !== 201) {
+      const detail = await res.text().catch(() => '');
+      throw new Error(`HTTP ${res.status}: ${detail || res.statusText}`);
+    }
+  }
+  document.getElementById('lead-form-el').addEventListener('submit', async e => {
+    e.preventDefault();
+    clearError();
+    const name = document.getElementById('lead-name').value.trim();
+    const email = document.getElementById('lead-email').value.trim();
+    if (!name) return showError('Please enter your name.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('Please enter a valid email address.');
+    const btn = document.getElementById('lead-submit');
+    btn.disabled = true;
+    const originalText = btn.textContent;
+    btn.textContent = 'Submitting…';
+    try {
+      await submitLead(name, email);
+      localStorage.setItem(LEAD_FLAG, 'true');
+      showDashboard();
+    } catch (err) {
+      console.error(err);
+      showError('We couldn’t submit your details. Please check your connection and try again.');
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }
+  });
+
+  // ── Boot ──
+  if (localStorage.getItem(LEAD_FLAG) === 'true') {
+    showDashboard();
+  } else {
+    document.body.classList.add('lead-active');
+  }
+</script>
+</body>
+</html>
