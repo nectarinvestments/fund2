@@ -801,8 +801,8 @@
     const backdrop = document.getElementById('opBackdrop');
     const city = d.city_state ? d.city_state.replace('/', ', ') : '';
     const docsendBtn = d.one_pager
-      ? `<a class="op-docsend-btn" href="${d.one_pager}" target="_blank" rel="noopener">View One-Pager (DocSend) →</a>`
-      : `<a class="op-docsend-btn disabled">One-pager not available</a>`;
+      ? `<a class="op-docsend-btn" href="${d.one_pager}" target="_blank" rel="noopener">View One-Pager →</a>`
+      : '';
     panel.innerHTML = `
       <div class="op-top">
         <div class="op-logo">nectar</div>
